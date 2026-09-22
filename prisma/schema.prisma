@@ -689,3 +689,14 @@ enum TeamMemberStatus {
   ACTIVE
   DEACTIVATED
 }
+model RateLimitEntry {
+  id          String   @id @default(cuid())
+  identifier  String
+  endpoint    String
+  windowStart DateTime @map("window_start")
+  requestCount Int     @default(0) @map("request_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([identifier, endpoint, windowStart])
+  @@map("rate_limit_entries")
+}
